@@ -8,6 +8,9 @@ Store data once as chunks; reference it everywhere. Move only what changed. Cach
 - Value with small demos: `docs/value-examples.md`
 - Architecture (deeper): `docs/architecture.md`
 - Specs (manifests, locator, caching): `docs/manifest-spec.md`, `docs/locator-design.md`, `docs/cache-design.md`
+- Hardware plan and sizing: `docs/hardware-plan.md`
+- Impact model (savings math): `docs/impact-model.md`
+- Stack options: `docs/stack-options.md`
 - Optional governance & security: `docs/security-and-governance.md`
 - Pilot plan & roadmap: `docs/pilot-plan.md`, `docs/roadmap.md`
 - Contributing & stewardship: `CONTRIBUTING.md`, `docs/stewardship.md`
@@ -25,4 +28,3 @@ Most systems copy the same bytes many times. We split data into chunks, store un
 
 ## Status
 Design docs and examples are WIP; reference implementations to follow. Naming is a placeholder — feel free to suggest.
-
