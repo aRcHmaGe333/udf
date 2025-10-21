@@ -1,13 +1,15 @@
 # Contributing
 
-Thanks for helping! To keep things simple:
+Thanks for your interest. Contributions are paused while we finalize direction.
 
-- Small PRs welcome for typos, clarity, and examples.
-- For major changes, open an issue first to discuss direction.
-- Keep general-audience docs approachable; link to deep specs for details.
-- Include measurements or small demos where claims are made.
+What we’re collecting now
+- Feedback via issues (use the Feedback template): use cases, unclear sections, missing edge cases, and measurable scenarios we can demo.
 
-Code style (examples):
-- Prefer clear, minimal Python for demos.
-- No external dependencies unless essential.
+Why contributions will matter later
+- Reference implementation: client (chunking, hashing, manifests), locator, and cache.
+- Connectors and integrations: table formats, gateways (FUSE/S3), and query engines.
+- Validations and benchmarks: datasets and workloads that prove dedupe/delta/cache gains.
+
+Until contributions open
+- Please do not open PRs; they will be closed. Issues for feedback are welcome.
 

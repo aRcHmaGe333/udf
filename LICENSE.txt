@@ -1,0 +1,8 @@
+Copyright (c) 2025, All Rights Reserved.
+
+Permission is hereby granted to view this repository and link to it.
+
+All other rights are reserved. Without prior written permission, you may not copy, modify, distribute, sublicense, publish, or create derivative works from any part of this repository, including documents, specifications, examples, or code.
+
+For permissions beyond viewing and linking, contact the repository owner.
+

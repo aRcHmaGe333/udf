@@ -1,0 +1,23 @@
+name: Feedback
+description: Share a use case, unclear section, or measurable scenario.
+title: "Feedback: <short summary>"
+labels: [feedback]
+body:
+  - type: textarea
+    id: usecase
+    attributes:
+      label: Your use case / scenario
+      description: What are you trying to achieve? What data shape/size?
+    validations:
+      required: true
+  - type: textarea
+    id: unclear
+    attributes:
+      label: What’s unclear / missing?
+      description: Point to specific docs/sections if possible.
+  - type: textarea
+    id: measure
+    attributes:
+      label: What could we measure?
+      description: Suggest a small, concrete demo or dataset to quantify value.
+

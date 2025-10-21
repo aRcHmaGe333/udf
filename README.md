@@ -27,4 +27,13 @@ Most systems copy the same bytes many times. We split data into chunks, store un
 - Small Python examples live in `examples/` to illustrate deduplication, delta sync, and caching benefits on tiny files.
 
 ## Status
-Design docs and examples are WIP; reference implementations to follow. Naming is a placeholder — feel free to suggest.
+Public, read‑first. Design docs and examples are WIP; reference implementations to follow. Contributions are paused while we finalize direction. See License/Contributing below.
+
+## License & Permissions
+- License: All Rights Reserved (see `LICENSE.txt`).
+- You may view and link to this repository.
+- Copying, modification, or redistribution requires written permission.
+
+## Contributing (Paused)
+- We are not accepting pull requests yet. Use the Feedback issue template to share use cases, questions, or corrections.
+- Why contributions will matter later: reference client/server, connectors, workload validations, and benchmarks that prove value across contexts.
