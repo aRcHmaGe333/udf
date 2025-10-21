@@ -1,0 +1,6 @@
+This is a small sample file used for deduplication and delta demonstrations.
+It includes repeated lines to simulate duplicate chunks across files.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+End of sample 1.

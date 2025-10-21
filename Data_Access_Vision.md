@@ -1,0 +1,4 @@
+Purely theoretical for now, the project needs to unfold an idea of data chunks being available locally, through a system that stores them and is cheaper/faster in making them accessible (perhaps they're not even transferred) than the internet download / transfer. 
+
+It needs an universal data comparison algorithm because a chunk of data could be reused in several different types of files. This is not just about a txt file that 10 people need and reducing the number of downloads for this particular file. It's about every system imaginable not storing repeated chunks of data, but storing one and recalling it whenever necessary, instantly. 
+Even locally, within the same PC, this approach would save a load of space and possibly time, when developed and properly utilized.

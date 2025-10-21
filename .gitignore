@@ -1,0 +1,7 @@
+# Private plans and local config
+private/
+.env
+*.local
+__pycache__/
+.DS_Store
+
