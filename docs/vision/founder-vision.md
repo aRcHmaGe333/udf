@@ -12,7 +12,7 @@ Why this matters
 
 What UDF adds
 - Content-addressed chunks (hash = identity)
-- Manifests to define versions
+- Index files (content maps) define versions
 - Delta sync for updates
 - Caching for locality
 - Optional governance for safety/compliance when needed
@@ -21,4 +21,3 @@ Intended outcomes
 - Less storage, less egress, faster access
 - Integrity by default (hash verification)
 - A simple path to scale from a laptop to global distribution
-

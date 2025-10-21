@@ -27,4 +27,4 @@ Physical components (see docs/hardware-plan.md)
 - Storage nodes with HDD capacity + NVMe journal
 - Lightweight control plane for manifest + locator
 
-See also: `docs/manifest-spec.md`, `docs/locator-design.md`, `docs/cache-design.md`.
+See also: `docs/pillars/data/manifest-spec.md`, `docs/pillars/data/locator-design.md`, `docs/pillars/data/cache-design.md`.

@@ -6,13 +6,14 @@ Store data once as chunks; reference it everywhere. Move only what changed. Cach
 - Plain-English overview: `docs/overview.md`
 - What to read next (map): `docs/layers.md`
 - Value with small demos: `docs/value-examples.md`
-- Architecture (deeper): `docs/architecture.md`
-- Specs (manifests, locator, caching): `docs/manifest-spec.md`, `docs/locator-design.md`, `docs/cache-design.md`
+- Pillars overview: `docs/pillars/README.md`
+- Data pillar: `docs/pillars/data/architecture.md`, `docs/pillars/data/manifest-spec.md`, `docs/pillars/data/locator-design.md`, `docs/pillars/data/cache-design.md`
+- Compute pillar: `docs/pillars/compute/compute-cache.md`, `docs/pillars/compute/determinism-contract.md`
+- Devices pillar: `docs/pillars/devices/operators.md`, `docs/pillars/devices/operator-provenance.md`
 - Hardware plan and sizing: `docs/hardware-plan.md`
 - Impact model (savings math): `docs/impact-model.md`
 - Stack options: `docs/stack-options.md`
 - Reference implementation (minimal Python): `docs/reference-impl.md`, `ref/`
-- Compute cache (action→outcome): `docs/compute-cache.md`
 - Ethics & access controls: `docs/ethics-and-access.md`
 - Value by stakeholder: `docs/stakeholder-value.md`
 - Optional governance & security: `docs/security-and-governance.md`

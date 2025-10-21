@@ -41,4 +41,4 @@ Limitations
 Next steps in code
 - Add CDC option, simple cache dir, and integrity metrics
 - Multi-node demo with two servers and cross-locate
- - Operator manifests and compute cache for modifiers (see `docs/operators.md`, `ref/operator_apply.py`)
+- Operator manifests and compute cache for modifiers (see `docs/pillars/devices/operators.md`, `ref/operator_apply.py`)
