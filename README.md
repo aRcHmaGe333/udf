@@ -11,6 +11,7 @@ Store data once as chunks; reference it everywhere. Move only what changed. Cach
 - Hardware plan and sizing: `docs/hardware-plan.md`
 - Impact model (savings math): `docs/impact-model.md`
 - Stack options: `docs/stack-options.md`
+- Reference implementation (minimal Python): `docs/reference-impl.md`, `ref/`
 - Optional governance & security: `docs/security-and-governance.md`
 - Pilot plan & roadmap: `docs/pilot-plan.md`, `docs/roadmap.md`
 - Contributing & stewardship: `CONTRIBUTING.md`, `docs/stewardship.md`
