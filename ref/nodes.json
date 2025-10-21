@@ -1,0 +1,4 @@
+[
+    {"url": "http://localhost:8080", "region": "local"},
+    {"url": "http://remote:8081", "region": "remote"}
+]

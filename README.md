@@ -14,6 +14,8 @@ Store data once as chunks; reference it everywhere. Move only what changed. Cach
 - Impact model (savings math): `docs/impact-model.md`
 - Stack options: `docs/stack-options.md`
 - Reference implementation (minimal Python): `docs/reference-impl.md`, `ref/`
+- Quickstart: `docs/QUICKSTART.md`
+- API Reference: `docs/api-reference.md`
 - Ethics & access controls: `docs/ethics-and-access.md`
 - Value by stakeholder: `docs/stakeholder-value.md`
 - Optional governance & security: `docs/security-and-governance.md`

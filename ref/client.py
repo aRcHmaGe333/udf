@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
-import argparse, os, sys, json, hashlib, urllib.request
+import argparse, os, sys, json, hashlib, urllib.request, logging
 from ref.chunker import chunk_iter, manifest_for_file
 from ref.cache import get_chunk_from_cache, put_chunk_to_cache
+
+logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 
 
 def http_put(url, data: bytes, content_type='application/octet-stream'):
@@ -22,7 +24,11 @@ def cmd_make_manifest(args):
     print(m['id'])
 
 def cmd_push(args):
-    m = manifest_for_file(args.path, name=os.path.basename(args.path))
+    try:
+        m = manifest_for_file(args.path, name=os.path.basename(args.path))
+    except Exception as e:
+        logging.error(f"Failed to create manifest for {args.path}: {e}")
+        raise RuntimeError(f"Manifest creation failed: {e}")
     # push chunks
     seen = set()
     for c in chunk_iter(args.path):
@@ -31,45 +37,73 @@ def cmd_push(args):
             continue
         seen.add(h)
         url = f"{args.server}/chunks/{h}"
-        status, _ = http_put(url, c['bytes'])
-        if status not in (200,201):
-            print(f"Failed to PUT chunk {h}: {status}", file=sys.stderr)
-            sys.exit(1)
+        try:
+            status, _ = http_put(url, c['bytes'])
+            if status not in (200,201):
+                logging.error(f"Failed to PUT chunk {h}: HTTP {status}")
+                raise RuntimeError(f"Chunk upload failed for {h}")
+        except Exception as e:
+            logging.error(f"Error uploading chunk {h}: {e}")
+            raise
     # push manifest
     mid = m['id']
-    status, _ = http_put(f"{args.server}/manifests/{mid}", json.dumps(m).encode('utf-8'), 'application/json')
-    if status not in (200,201):
-        print(f"Failed to PUT manifest {mid}: {status}", file=sys.stderr)
-        sys.exit(1)
+    try:
+        status, _ = http_put(f"{args.server}/manifests/{mid}", json.dumps(m).encode('utf-8'), 'application/json')
+        if status not in (200,201):
+            logging.error(f"Failed to PUT manifest {mid}: HTTP {status}")
+            raise RuntimeError(f"Manifest upload failed for {mid}")
+    except Exception as e:
+        logging.error(f"Error uploading manifest {mid}: {e}")
+        raise
     print(mid)
 
 def cmd_fetch(args):
-    status, body = http_get(f"{args.server}/manifests/{args.manifest}")
-    if status != 200:
-        print(f"Manifest not found: {args.manifest}", file=sys.stderr)
-        sys.exit(1)
-    m = json.loads(body.decode('utf-8'))
-    out = open(args.out, 'wb') if args.out else sys.stdout.buffer
-    for c in sorted(m['chunks'], key=lambda x: x['order']):
-        h = c['hash']
-        # locate
-        status, body = http_get(f"{args.server}/locate/{h}")
+    try:
+        status, body = http_get(f"{args.server}/manifests/{args.manifest}")
         if status != 200:
-            print(f"Locate failed for {h}", file=sys.stderr); sys.exit(1)
-        loc = json.loads(body.decode('utf-8'))
-        url = loc['candidates'][0]['url']
-        # try cache first
-        chunk_bytes = get_chunk_from_cache(h)
-        if chunk_bytes is None:
-            status, chunk_bytes = http_get(url)
-            if status != 200:
-                print(f"Chunk fetch failed {h}", file=sys.stderr); sys.exit(1)
-            put_chunk_to_cache(h, chunk_bytes)
-        # verify hash
-        hh = 'sha256:' + hashlib.sha256(chunk_bytes).hexdigest()
-        if hh != h:
-            print(f"Integrity mismatch for {h}", file=sys.stderr); sys.exit(1)
-        out.write(chunk_bytes)
+            logging.error(f"Manifest not found: {args.manifest} (HTTP {status})")
+            raise RuntimeError(f"Manifest fetch failed: {args.manifest}")
+        m = json.loads(body.decode('utf-8'))
+    except Exception as e:
+        logging.error(f"Error fetching manifest {args.manifest}: {e}")
+        raise
+    out = open(args.out, 'wb') if args.out else sys.stdout.buffer
+    try:
+        for c in sorted(m['chunks'], key=lambda x: x['order']):
+            h = c['hash']
+            # locate
+            try:
+                status, body = http_get(f"{args.server}/locate/{h}")
+                if status != 200:
+                    logging.error(f"Locate failed for {h} (HTTP {status})")
+                    raise RuntimeError(f"Locate failed for {h}")
+                loc = json.loads(body.decode('utf-8'))
+                url = loc['candidates'][0]['url']
+            except Exception as e:
+                logging.error(f"Error locating chunk {h}: {e}")
+                raise
+            # try cache first
+            chunk_bytes = get_chunk_from_cache(h)
+            if chunk_bytes is None:
+                try:
+                    status, chunk_bytes = http_get(url)
+                    if status != 200:
+                        logging.error(f"Chunk fetch failed {h} (HTTP {status})")
+                        raise RuntimeError(f"Chunk fetch failed for {h}")
+                    put_chunk_to_cache(h, chunk_bytes)
+                except Exception as e:
+                    logging.error(f"Error fetching chunk {h}: {e}")
+                    raise
+            # verify hash
+            hh = 'sha256:' + hashlib.sha256(chunk_bytes).hexdigest()
+            if hh != h:
+                logging.error(f"Integrity mismatch for {h}")
+                raise RuntimeError(f"Integrity check failed for {h}")
+            out.write(chunk_bytes)
+    except Exception:
+        if args.out:
+            out.close()
+        raise
     if args.out:
         out.close()
 
