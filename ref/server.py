@@ -8,8 +8,11 @@ class Store:
         self.root = root
         self.chunks = os.path.join(root, 'chunks')
         self.manifests = os.path.join(root, 'manifests')
+        self.results_index = os.path.join(root, 'results.json')
+        self.operators = os.path.join(root, 'operators')
         os.makedirs(self.chunks, exist_ok=True)
         os.makedirs(self.manifests, exist_ok=True)
+        os.makedirs(self.operators, exist_ok=True)
 
     def chunk_path(self, h):
         safe = h.replace(':', '_')
@@ -46,6 +49,48 @@ class Store:
         with open(p, 'r', encoding='utf-8') as f:
             return json.load(f)
 
+    # Results index: task_key -> manifest id
+    def get_result(self, key):
+        if not os.path.exists(self.results_index):
+            return None
+        try:
+            with open(self.results_index, 'r', encoding='utf-8') as f:
+                m = json.load(f)
+        except Exception:
+            return None
+        return m.get(key)
+
+    def put_result(self, key, manifest_id, receipt=None):
+        m = {}
+        if os.path.exists(self.results_index):
+            try:
+                with open(self.results_index, 'r', encoding='utf-8') as f:
+                    m = json.load(f)
+            except Exception:
+                m = {}
+        entry = {"manifest": manifest_id}
+        if receipt:
+            entry["receipt"] = receipt
+        m[key] = entry
+        with open(self.results_index, 'w', encoding='utf-8') as f:
+            json.dump(m, f)
+
+    # Operators: store simple operator specs by id
+    def operator_path(self, oid):
+        safe = oid.replace(':', '_')
+        return os.path.join(self.operators, safe + '.json')
+
+    def put_operator(self, oid, spec):
+        with open(self.operator_path(oid), 'w', encoding='utf-8') as f:
+            json.dump(spec, f)
+
+    def get_operator(self, oid):
+        p = self.operator_path(oid)
+        if not os.path.exists(p):
+            return None
+        with open(p, 'r', encoding='utf-8') as f:
+            return json.load(f)
+
 
 class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -68,6 +113,31 @@ class Handler(BaseHTTPRequestHandler):
             if m is None:
                 self.send_error(404, 'manifest not found'); return
             body = json.dumps(m).encode('utf-8')
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Content-Length', str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return
+        if self.path.startswith('/results/'):
+            key = self.path.split('/results/',1)[1]
+            entry = self.server.store.get_result(key)
+            if not entry:
+                self.send_error(404, 'result not found'); return
+            payload = entry if isinstance(entry, dict) else {"manifest": entry}
+            body = json.dumps(payload).encode('utf-8')
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Content-Length', str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return
+        if self.path.startswith('/operators/'):
+            oid = self.path.split('/operators/',1)[1]
+            spec = self.server.store.get_operator(oid)
+            if spec is None:
+                self.send_error(404, 'operator not found'); return
+            body = json.dumps(spec).encode('utf-8')
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
             self.send_header('Content-Length', str(len(body)))
@@ -103,6 +173,25 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_error(400, 'invalid json'); return
             self.server.store.put_manifest(mid, m)
             self.send_response(201); self.end_headers(); return
+        if self.path.startswith('/results/'):
+            key = self.path.split('/results/',1)[1]
+            try:
+                payload = json.loads(body.decode('utf-8'))
+            except Exception:
+                self.send_error(400, 'invalid json'); return
+            mid = payload.get('manifest')
+            if not mid:
+                self.send_error(400, 'missing manifest'); return
+            self.server.store.put_result(key, mid, payload.get('receipt'))
+            self.send_response(201); self.end_headers(); return
+        if self.path.startswith('/operators/'):
+            oid = self.path.split('/operators/',1)[1]
+            try:
+                spec = json.loads(body.decode('utf-8'))
+            except Exception:
+                self.send_error(400, 'invalid json'); return
+            self.server.store.put_operator(oid, spec)
+            self.send_response(201); self.end_headers(); return
         self.send_error(404, 'unknown endpoint')
 
 
@@ -126,4 +215,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

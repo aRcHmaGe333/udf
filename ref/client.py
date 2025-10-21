@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse, os, sys, json, hashlib, urllib.request
 from ref.chunker import chunk_iter, manifest_for_file
+from ref.cache import get_chunk_from_cache, put_chunk_to_cache
 
 
 def http_put(url, data: bytes, content_type='application/octet-stream'):
@@ -57,9 +58,13 @@ def cmd_fetch(args):
             print(f"Locate failed for {h}", file=sys.stderr); sys.exit(1)
         loc = json.loads(body.decode('utf-8'))
         url = loc['candidates'][0]['url']
-        status, chunk_bytes = http_get(url)
-        if status != 200:
-            print(f"Chunk fetch failed {h}", file=sys.stderr); sys.exit(1)
+        # try cache first
+        chunk_bytes = get_chunk_from_cache(h)
+        if chunk_bytes is None:
+            status, chunk_bytes = http_get(url)
+            if status != 200:
+                print(f"Chunk fetch failed {h}", file=sys.stderr); sys.exit(1)
+            put_chunk_to_cache(h, chunk_bytes)
         # verify hash
         hh = 'sha256:' + hashlib.sha256(chunk_bytes).hexdigest()
         if hh != h:
@@ -93,4 +98,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
