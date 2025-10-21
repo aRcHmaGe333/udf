@@ -14,6 +14,7 @@ Store data once as chunks; reference it everywhere. Move only what changed. Cach
 - Reference implementation (minimal Python): `docs/reference-impl.md`, `ref/`
 - Compute cache (action→outcome): `docs/compute-cache.md`
 - Ethics & access controls: `docs/ethics-and-access.md`
+- Value by stakeholder: `docs/stakeholder-value.md`
 - Optional governance & security: `docs/security-and-governance.md`
 - Pilot plan & roadmap: `docs/pilot-plan.md`, `docs/roadmap.md`
 - Contributing & stewardship: `CONTRIBUTING.md`, `docs/stewardship.md`
