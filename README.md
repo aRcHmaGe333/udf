@@ -14,6 +14,7 @@ Store data once as chunks; reference it everywhere. Move only what changed. Cach
 - Optional governance & security: `docs/security-and-governance.md`
 - Pilot plan & roadmap: `docs/pilot-plan.md`, `docs/roadmap.md`
 - Contributing & stewardship: `CONTRIBUTING.md`, `docs/stewardship.md`
+- Founder vision (adapted) and origins: `docs/vision/founder-vision.md`, `docs/vision/origins-notes.md`
 
 ## Why this exists
 Most systems copy the same bytes many times. We split data into chunks, store unique chunks once, and let others reference them. Updates ship only changed chunks. Popular chunks are cached nearby. Result: less storage, less transfer, faster access.
