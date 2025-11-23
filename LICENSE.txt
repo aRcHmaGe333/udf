@@ -1,8 +1,16 @@
 Copyright (c) 2025, All Rights Reserved.
 
-Permission is hereby granted to view this repository and link to it.
+Permission is hereby granted to the public to view and link to this repository for
+the sole purposes of:
+- Non-commercial, non-derivative study of the architectural concepts;
+- Review and inquiry, including good-faith due diligence by potential funders, collaborators, or partners.
 
-All other rights are reserved. Without prior written permission, you may not copy, modify, distribute, sublicense, publish, or create derivative works from any part of this repository, including documents, specifications, examples, or code.
+**No other rights are granted or implied.**
+- No code, document, scheme, or concept in this repository may be copied, modified, adapted, implemented, derived from, republished, or used in any system or product.
+- Redistribution, sublicensing, or publishing any contents in part or whole is expressly forbidden absent prior written permission.
+- Any illustrations, diagrams, or pseudo-code are for explanatory and engagement purposes only.
 
-For permissions beyond viewing and linking, contact the repository owner.
+For permissions beyond those above, including collaboration, research use, pilot studies, demonstrations, pitches, or partnership, contact the repository owner using GitHub or other published channels.
 
+This license is designed to facilitate responsible review, dialog, and consideration  
+while protecting project integrity and readiness for future coalition, funding, and governance arrangements.
