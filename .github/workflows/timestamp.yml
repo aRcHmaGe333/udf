@@ -15,13 +15,15 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Extract tree hash and generate timestamp
+      - name: Extract tree hash and timestamp digest
         run: |
           TREE_HASH=$(git rev-parse HEAD^{tree})
+          TREE_DIGEST=$(printf '%s' "$TREE_HASH" | sha512sum | awk '{print $1}')
           echo "TREE_HASH=$TREE_HASH" >> $GITHUB_ENV
+          echo "TREE_DIGEST=$TREE_DIGEST" >> $GITHUB_ENV
           echo "Tree hash: $TREE_HASH"
+          echo "Timestamp subject digest: $TREE_DIGEST"
 
-          # Skip if this commit was made by the timestamp bot (prevent infinite loop)
           LAST_MSG=$(git log -1 --pretty=%s)
           if [[ "$LAST_MSG" == "[APC]"* ]]; then
             echo "Skipping — this commit is a timestamp proof commit."
@@ -31,22 +33,24 @@ jobs:
 
           mkdir -p .timestamps
 
-          # Prepare hash for timestamping
-          echo -n "$TREE_HASH" > /tmp/tree_hash.txt
+          if [[ -f ".timestamps/${TREE_HASH}.tsr" ]]; then
+            echo "Timestamp already exists for tree $TREE_HASH."
+            echo "SKIP=true" >> $GITHUB_ENV
+            exit 0
+          fi
 
-          # RFC 3161 timestamp via FreeTSA
-          openssl ts -query -data /tmp/tree_hash.txt -no_nonce -sha512 -cert -out /tmp/request.tsq
+          openssl ts -query -digest "$TREE_DIGEST" -sha512 -no_nonce -cert -out /tmp/request.tsq
           curl -s -H "Content-Type: application/timestamp-query" \
                --data-binary '@/tmp/request.tsq' \
                https://freetsa.org/tsr \
                -o .timestamps/${TREE_HASH}.tsr
 
-          # Download TSA certificates and verify
           wget -q https://freetsa.org/files/tsa.crt -O /tmp/tsa.crt
           wget -q https://freetsa.org/files/cacert.pem -O /tmp/cacert.pem
           openssl ts -verify \
             -in .timestamps/${TREE_HASH}.tsr \
-            -queryfile /tmp/request.tsq \
+            -digest "$TREE_DIGEST" \
+            -sha512 \
             -CAfile /tmp/cacert.pem \
             -untrusted /tmp/tsa.crt
 

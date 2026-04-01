@@ -41,3 +41,8 @@ Notes
 - Prioritize NVMe for cache/journal; use HDD for capacity in chunk store.
 - Hash offload (Intel SHA, ARMv8 SHA) preferred; GPU offload generally unnecessary.
 
+Tier responsibilities (wear-aware)
+- Personal devices: hot working set + short-lived materializations, avoid churn-heavy writes.
+- Edge/cache nodes: absorb readiness metadata churn and repeated materialization.
+- Storage nodes: durable chunks with erasure coding, large sequential IO.
+- Control plane: locator and manifest resolution, minimal write amplification.

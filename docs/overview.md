@@ -13,5 +13,7 @@ Core pieces:
 - Cache (store hot chunks locally)
 - Erasure coding (redundancy without 3x replication)
 
-Next: See examples of space/network savings in `docs/value-examples.md`.
+Why this matters beyond storage:
+- UDF treats readiness as a first-class feature. It can prepare identifiers and retrieval paths for what will be needed next, so the system feels fast without keeping everything in RAM. This makes each byte of RAM, SSD, and network do more useful work.
 
+Next: See examples of space/network savings in `docs/value-examples.md`.

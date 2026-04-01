@@ -32,3 +32,29 @@ Try it: `python examples/cache_sim.py`
 
 Note: Numbers vary with chunk size, workload mix, and fault-tolerance targets, but the direction holds across scales.
 
+## 5) Day-in-the-Life Readiness (Hot vs Prepared)
+
+Game session
+- Hot in RAM: current level geometry, active textures, player state, input buffers.
+- Prepared (ID-only): next level assets, nearby textures, likely cutscene audio, shader variants.
+- Cold: unused levels, optional skins, old patches, archived replays.
+
+Music production (DAW)
+- Hot in RAM: current playback window, active plugins, live input buffers.
+- Prepared (ID-only): next clips in the timeline, nearby sample libraries, alternate takes.
+- Cold: long-unused tracks, raw stems not in the current edit, older versions.
+
+Artist / illustrator
+- Hot in RAM: current canvas tiles, active layers, brush state, recent undo stack.
+- Prepared (ID-only): adjacent tiles, hidden layers likely to be toggled, reference images.
+- Cold: archived drafts, hidden assets not touched in the session.
+
+Writer / researcher
+- Hot in RAM: current document section, open notes, autocomplete models.
+- Prepared (ID-only): cited sources, nearby sections, related notes.
+- Cold: older drafts, long-term archives, finished materials.
+
+Movie watcher
+- Hot in RAM: current decode buffers, subtitles, audio stream.
+- Prepared (ID-only): upcoming video segments, alternate audio tracks.
+- Cold: earlier segments, bonus content, alternate resolutions not selected.
