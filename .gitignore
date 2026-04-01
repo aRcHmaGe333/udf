@@ -5,3 +5,9 @@ private/
 __pycache__/
 .DS_Store
 
+# Local workspace artifacts (keep out of public repo)
+copilot_exports/
+Data_Access/
+AGENTS.md
+scripts/1.py
+scripts/udf_yield_sim.py
