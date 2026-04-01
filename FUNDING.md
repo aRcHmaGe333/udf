@@ -1,4 +1,4 @@
-# Support Universal Data Fabric
+﻿# Support Universal Data Fabric
 
 At Universal Data Fabric, we recognize the vital role that community, collaboration, and innovation play in shaping the future of technology. As we embark on this transformative journey, we invite interested parties—be it funders, sponsors, or partners—to join us in our mission. Your support is crucial for the advancement of Universal Data Fabric, and there are several exciting ways you can contribute:
 
@@ -16,3 +16,11 @@ We encourage you to reach out if you are interested in exploring funding or part
 Your involvement is pivotal, not just for the project but for the broader ecosystem we aim to build. Join us in supporting Universal Data Fabric and help shape the future of technology! We look forward to your connection!
 
 ---
+## Support on Ko-fi
+
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-Support%20this%20work-ff5e5b?logo=ko-fi&logoColor=white)](https://ko-fi.com/earthcraft)
+
+Direct link: https://ko-fi.com/earthcraft
+
+Contributions help sustain maintenance and continued development.
+

@@ -1,4 +1,4 @@
-# Universal Data Fabric (working title)
+﻿# Universal Data Fabric (working title)
 
 Store data once as chunks; reference it everywhere. Move only what changed. Cache hot data near where it’s used. Governance is optional and layered.
 
@@ -45,3 +45,11 @@ Public, read‑first. Design docs and examples are WIP; reference implementation
 ## Contributing (Paused)
 - We are not accepting pull requests yet. Use the Feedback issue template to share use cases, questions, or corrections.
 - Why contributions will matter later: reference client/server, connectors, workload validations, and benchmarks that prove value across contexts.
+## Support This Work
+
+If this project is useful to you, consider supporting ongoing independent development.
+
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-Support%20this%20work-ff5e5b?logo=ko-fi&logoColor=white)](https://ko-fi.com/earthcraft)
+
+Direct link: https://ko-fi.com/earthcraft
+
