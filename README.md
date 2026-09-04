@@ -1,55 +1,85 @@
-﻿# Universal Data Fabric (working title)
+# Universal Data Fabric (working title)
 
-Store data once as chunks; reference it everywhere. Move only what changed. Cache hot data near where it’s used. Governance is optional and layered.
+The same data gets copied everywhere.
 
-- Start here (general audience): `docs/start-here.md`
-- Plain-English overview: `docs/overview.md`
-- What to read next (map): `docs/layers.md`
-- Value with small demos: `docs/value-examples.md`
-- Pillars overview: `docs/pillars/README.md`
-- Data pillar: `docs/pillars/data/architecture.md`, `docs/pillars/data/manifest-spec.md`, `docs/pillars/data/locator-design.md`, `docs/pillars/data/cache-design.md`
-- Compute pillar: `docs/pillars/compute/compute-cache.md`, `docs/pillars/compute/determinism-contract.md`
-- Devices pillar: `docs/pillars/devices/operators.md`, `docs/pillars/devices/operator-provenance.md`
-- Hardware plan and sizing: `docs/hardware-plan.md`
-- Impact model (savings math): `docs/impact-model.md`
-- Stack options: `docs/stack-options.md`
-- Reference implementation (minimal Python): `docs/reference-impl.md`, `ref/`
-- Quickstart: `docs/QUICKSTART.md`
-- API Reference: `docs/api-reference.md`
-- Ethics & access controls: `docs/ethics-and-access.md`
-- Value by stakeholder: `docs/stakeholder-value.md`
-- Optional governance & security: `docs/security-and-governance.md`
-- Pilot plan & roadmap: `docs/pilot-plan.md`, `docs/roadmap.md`
-- Contributing & stewardship: `CONTRIBUTING.md`, `docs/stewardship.md`
-- Founder vision (adapted) and origins: `docs/vision/founder-vision.md`, `docs/vision/origins-notes.md`
+Across devices. Across apps. Across servers. Across backups. Across versions where 99% of the thing is still exactly the same.
 
-## Why this exists
-Most systems copy the same bytes many times. We split data into chunks, store unique chunks once, and let others reference them. Updates ship only changed chunks. Popular chunks are cached nearby. Result: less storage, less transfer, faster access.
+UDF starts from the question: **why keep moving and storing the same bytes if we already have them?**
 
-## Who this is for
-- General public: see `docs/start-here.md` and the value examples.
-- Builders/engineers: explore `docs/architecture.md` and specs.
-- Organizations: see the pilot plan, roadmap, and optional governance.
+The basic idea is simple:
 
-## Quick demo
-- Small Python examples live in `examples/` to illustrate deduplication, delta sync, and caching benefits on tiny files.
+- split data into chunks
+- identify those chunks reliably
+- store unique chunks once
+- reference them wherever they are needed
+- when something changes, move the changed chunks instead of the whole thing again
+- keep frequently used chunks near where they are actually used
 
-## Status
-Public, read‑first. Design docs and examples are WIP; reference implementations to follow. Contributions are paused while we finalize direction. See License/Contributing below.
+That is the core. Everything else in this repo is an attempt to make that idea useful enough to survive real systems.
 
-## License & Permissions
-- License: All Rights Reserved (see `LICENSE.txt`).
-- You may view and link to this repository.
-- Copying, modification, or redistribution requires written permission.
+## What exists right now
 
-## Contributing (Paused)
-- We are not accepting pull requests yet. Use the Feedback issue template to share use cases, questions, or corrections.
-- Why contributions will matter later: reference client/server, connectors, workload validations, and benchmarks that prove value across contexts.
-## Support This Work
+This is R&D, not a finished storage platform.
 
-If this project is useful to you, consider supporting ongoing independent development.
+The repo already has:
 
-[![Ko-fi](https://img.shields.io/badge/Ko--fi-Support%20this%20work-ff5e5b?logo=ko-fi&logoColor=white)](https://ko-fi.com/earthcraft)
+- architecture/specification work
+- chunk/manifest/locator/cache design
+- an impact model
+- hardware planning
+- pilot and roadmap material
+- small Python examples for deduplication, delta sync and caching
+- reference-implementation planning
 
-Direct link: https://ko-fi.com/earthcraft
+Current stage: **R&D architecture + small executable demonstrations**.
 
+So I am not claiming "we replaced cloud storage." I am claiming there is enough here to test the proposition properly.
+
+## Why this matters
+
+The obvious value is less duplicated storage and less unnecessary network transfer.
+
+That can mean lower storage cost, less bandwidth, faster updates and less hardware/energy spent carrying identical data around for no reason.
+
+The sustainability claim is the same as the technical claim: if you stop storing and moving redundant data, you should waste less infrastructure doing it.
+
+The next useful step is to benchmark that honestly on real workloads and see how much disappears.
+
+## Start here
+
+If you just want to understand the thing:
+
+- [General-audience start](docs/start-here.md)
+- [Overview](docs/overview.md)
+- [Value examples](docs/value-examples.md)
+- [Impact model](docs/impact-model.md)
+
+If you actually want to build/test it:
+
+- [Architecture](docs/architecture.md)
+- [Data pillar](docs/pillars/data/architecture.md)
+- [Manifest spec](docs/pillars/data/manifest-spec.md)
+- [Locator design](docs/pillars/data/locator-design.md)
+- [Cache design](docs/pillars/data/cache-design.md)
+- [Compute cache](docs/pillars/compute/compute-cache.md)
+- [Reference implementation](docs/reference-impl.md)
+- [Quickstart](docs/QUICKSTART.md)
+- [Pilot plan](docs/pilot-plan.md)
+
+## What I want next
+
+A small reference implementation that is annoying to argue with.
+
+Pick a few real workloads. Measure storage, transfer, latency and energy/hardware implications against the boring baseline. Show exactly where UDF wins, where it does not, and what the tradeoffs cost.
+
+That is much more useful than another 40-page architectural hymn.
+
+If you run infrastructure, storage, edge systems, devices, data platforms or sustainability benchmarking and want to help test this properly, I am interested.
+
+## License
+
+All Rights Reserved. See [LICENSE.txt](LICENSE.txt).
+
+You can view and link to the repository. Copying/modification/redistribution requires permission.
+
+[Support the work](https://ko-fi.com/earthcraft)
